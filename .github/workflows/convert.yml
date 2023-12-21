@@ -11,13 +11,13 @@ jobs:
       - name: execute conversion
         run: ./conversion-script.sh
       - name: create jpg archive
-        run: zip --recurse-paths --symlinks pictures-jpg.zip pictures-jpg/
+        run: tar -czvf pictures-jpg.tar.gz pictures-jpg/
       - name: create png archive
-        run: zip --recurse-paths --symlinks pictures-png.zip pictures-png/
+        run: tar -czvf pictures-png.tar.gz pictures-png/
       - name: Upload archives
         uses: actions/upload-artifact@v4
         with:
           name: pictures
-          path: pictures-*.zip
+          path: pictures-*.tar.gz
           if-no-files-found: error
           compression-level: 0
