@@ -1,0 +1,23 @@
+name: Convert Vector Graphics to Raster Graphics
+on: [push]
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: sudo apt-get install -y inkscape imagemagick zip
+      - name: execute conversion
+        run: ./conversion-script.sh
+      - name: create jpg archive
+        run: zip --recurse-paths --symlinks pictures-jpg.zip pictures-jpg/
+      - name: create png archive
+        run: zip --recurse-paths --symlinks pictures-png.zip pictures-png/
+      - name: Upload archives
+        uses: actions/upload-artifact@v4
+        with:
+          name: pictures
+          path: pictures-*.zip
+          if-no-files-found: error
+          compression-level: 0
